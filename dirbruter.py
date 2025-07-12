@@ -98,6 +98,7 @@ try:
 except:
     print("No wordlist selected.")
     try:
+        ammount_left = len(open("./wordlist.txt","r").readlines()) * len(extensions)
         wordlist = open("./wordlist.txt")
         print("using existing wordlist file named wordlist.txt")
     except:
@@ -105,6 +106,7 @@ except:
         new_file = open("wordlist.txt", "w")
         new_file.write(requests.get("https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/directory-list-2.3-medium.txt").text)
         new_file.close()
+        ammount_left = len(open("wordlist.txt","r").readlines()) * len(extensions)
         wordlist = open("wordlist.txt")
 
 
