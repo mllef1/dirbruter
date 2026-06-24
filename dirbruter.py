@@ -10,7 +10,7 @@ import time
 
 extensions = ["",".php", ".html", ".txt"]
 ignore_status_codes = [404]
-ignore_response_lengths = [] 
+ignore_response_lengths = []
 max_threads = 300
 
 
@@ -29,7 +29,7 @@ def help():
 
 #fuck for loops with if statements
 for arg in sys.argv:
-    
+
     if arg == "-h" or arg == "--help":
         help()
     if arg == "--target":
@@ -69,23 +69,23 @@ for arg in sys.argv:
         else:
             if add_status not in ignore_status_codes:
                 ignore_status_codes.append(int(add_status))
-    
+
 
 
 
 
 try:
-    
+
     if target == "-h" or target == "--help":
         exit()
     try:
-        
+
         requests.get(target)
         print("Connected to target successfully")
     except:
         print(f"Could not connect to {target}")
         exit()
-    
+
 except:
     help()
 try:
@@ -93,7 +93,7 @@ try:
     wordlist = open(wordlist,"r")
 
 
-    
+
 
 except:
     print("No wordlist selected.")
@@ -113,14 +113,14 @@ except:
 
 def check(resource):
     try:
-        
+
         req = requests.get(f"{target}/{resource}")
-        
+
         if req.status_code not in ignore_status_codes:
             if len(req.text) not in ignore_response_lengths:
                 print(f"{target}/{resource}   [status code: {str(req.status_code)}]   [Length:{str(len(req.text))}]                          ")
-        
-        
+
+
 
     except:
         pass
@@ -130,6 +130,7 @@ completed = 0
 
 
 for resource in wordlist:
+    if resource[0] != "#"
     for ext in extensions:
         ext = resource + ext
         ext = ''.join(ext.split()) #get rid of all whitespace
@@ -140,9 +141,3 @@ for resource in wordlist:
             thread = threading.Thread(target=check, args=(ext,))
             thread.start()
             print(f"Current ammount of threads: {str(threading.active_count())}   Completed:{str(completed)}/{str(ammount_left)}   [/{ext}]                     ", end='\r')
-        
-            
-            
-
-
-
