@@ -34,9 +34,11 @@ for arg in sys.argv:
         help()
     if arg == "--target":
         target = sys.argv[sys.argv.index(arg)+1]
+        if target[-1] == "/":
+            target = target[:-1]
     if arg == "-w":
         wordlist = sys.argv[sys.argv.index(arg)+1]
-    if arg == "t":
+    if arg == "-t":
         max_threads = int(sys.argv[sys.argv.index(arg)+1])
 
     if arg == "-e":
@@ -104,7 +106,7 @@ except:
     except:
         print("fetching a wordlist file named wordlist.txt")
         new_file = open("wordlist.txt", "w")
-        new_file.write(requests.get("https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/directory-list-2.3-medium.txt").text)
+        new_file.write(requests.get("https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/big.txt").text)
         new_file.close()
         ammount_left = len(open("wordlist.txt","r").readlines()) * len(extensions)
         wordlist = open("wordlist.txt")
@@ -130,14 +132,14 @@ completed = 0
 
 
 for resource in wordlist:
-    if resource[0] != "#"
-    for ext in extensions:
-        ext = resource + ext
-        ext = ''.join(ext.split()) #get rid of all whitespace
-        if threading.active_count() > max_threads:
-            time.sleep(1)
-        else:
-            completed += 1
-            thread = threading.Thread(target=check, args=(ext,))
-            thread.start()
-            print(f"Current ammount of threads: {str(threading.active_count())}   Completed:{str(completed)}/{str(ammount_left)}   [/{ext}]                     ", end='\r')
+    if resource[0] != "#":
+        for ext in extensions:
+            ext = resource + ext
+            ext = ''.join(ext.split()) #get rid of all whitespace
+            if threading.active_count() > max_threads:
+                time.sleep(1)
+            else:
+                completed += 1
+                thread = threading.Thread(target=check, args=(ext,))
+                thread.start()
+                print(f"Current ammount of threads: {str(threading.active_count())}   Completed:{str(completed)}/{str(ammount_left)}   [/{ext}]                     ", end='\r')
