@@ -32,12 +32,15 @@ for arg in sys.argv:
 
     if arg == "-h" or arg == "--help":
         help()
+
     if arg == "--target":
         target = sys.argv[sys.argv.index(arg)+1]
         if target[-1] == "/":
             target = target[:-1]
+
     if arg == "-w":
         wordlist = sys.argv[sys.argv.index(arg)+1]
+
     if arg == "-t":
         max_threads = int(sys.argv[sys.argv.index(arg)+1])
 
@@ -51,6 +54,7 @@ for arg in sys.argv:
         else:
             if add_ext not in extensions:
                 extensions.append("." + add_ext)
+
     if arg == "-l":
         add_len = sys.argv[sys.argv.index(arg)+1]
         if "," in add_len:
@@ -61,6 +65,7 @@ for arg in sys.argv:
         else:
             if add_len not in ignore_response_lengths:
                 ignore_response_lengths.append(int(add_len))
+
     if arg == "-s":
         add_status = sys.argv[sys.argv.index(arg)+1]
         if "," in add_status:
