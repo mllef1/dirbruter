@@ -5,7 +5,7 @@ import threading
 import sys
 import threading
 import time
-
+import os # used ONLY for getting the size of the terminal, nothing else.
 
 
 extensions = ["",".php", ".html", ".txt"]
@@ -127,7 +127,11 @@ def check(resource):
 
         if req.status_code not in ignore_status_codes:
             if len(req.text) not in ignore_response_lengths:
-                print(f"{target}/{resource}   [status code: {str(req.status_code)}]   [Length:{str(len(req.text))}]                          ")
+                found_output = f"{target}/{resource}   [status code: {str(req.status_code)}]   [Length:{str(len(req.text))}]"
+                if (len(found_output) >= terminal_size.columns ):
+                    print(output)
+                else:
+                    print(output + (" " * (terminal_size.columns - len(output))))
 
 
 
@@ -149,4 +153,9 @@ for resource in wordlist:
                 completed += 1
                 thread = threading.Thread(target=check, args=(ext,))
                 thread.start()
-                print(f"Current ammount of threads: {str(threading.active_count())}   Completed:{str(completed)}/{str(ammount_left)}   [/{ext}]                     ", end='\r')
+                output = f"Current ammount of threads: {str(threading.active_count())}   Completed:{str(completed)}/{str(ammount_left)}   [/{ext}]"
+                terminal_size = os.get_terminal_size()
+                if (len(output) > terminal_size.columns ):
+                    pass #so it doesnt fill the terminal
+                else:
+                    print(output + (" " * (terminal_size.columns - len(output))), end='\r')
